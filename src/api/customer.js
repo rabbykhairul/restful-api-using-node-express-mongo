@@ -19,4 +19,16 @@ router.post("/", (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
+// return customer infos or info about a single customer if specified in queryString
+router.get("/", (req, res) => {
+  if (req.query.email)
+    return CustomerModel.findOne({ email: req.query.email })
+      .then((doc) => res.status(200).json(doc))
+      .catch((err) => res.status(500).json(err));
+
+  CustomerModel.find()
+    .then((docs) => res.status(200).json(docs))
+    .catch((err) => res.status(500).json(err));
+});
+
 module.exports = router;
