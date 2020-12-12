@@ -31,6 +31,20 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
+// update a customer info if specified in queryString
+router.put("/", (req, res) => {
+  if (!req.query.email)
+    return res
+      .status(400)
+      .send("Bad request: Missing email queryString for update operation");
+
+  CustomerModel.findOneAndUpdate({ email: req.query.email }, req.query, {
+    new: true,
+  })
+    .then((doc) => res.status(200).send(doc))
+    .catch((err) => res.status(500).json(err));
+});
+
 // delete a customer from database
 router.delete("/", (req, res) => {
   if (!req.query.email) return res.status(400).send("Missing URL query: email");
