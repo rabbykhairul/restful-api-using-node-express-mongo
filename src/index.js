@@ -1,15 +1,19 @@
+const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
 
 const path = require("path");
 
+app.use(bodyParser.json());
+
 app.use((req, res, next) => {
-  console.log(`${new Date().toString()} => ${req.originalUrl}`);
+  console.log(`${new Date().toString()} => ${req.originalUrl}`, req.body);
   next();
 });
 
 app.use(express.static("public"));
 app.use("/api/person", require("./api/person"));
+app.use("/api/customer", require("./api/customer"));
 
 // Handler for unregistered routes - 404 error
 app.use((req, res, next) => {
