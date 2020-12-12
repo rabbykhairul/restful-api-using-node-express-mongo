@@ -31,4 +31,13 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
+// delete a customer from database
+router.delete("/", (req, res) => {
+  if (!req.query.email) return res.status(400).send("Missing URL query: email");
+
+  CustomerModel.findOneAndDelete({ email: req.query.email })
+    .then((doc) => res.status(200).json(doc))
+    .catch((err) => res.status(500).json(err));
+});
+
 module.exports = router;
